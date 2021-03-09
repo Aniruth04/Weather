@@ -13,7 +13,7 @@ async function getWeather()
     label = [];
     data = [];
     var res = document.getElementById("result");
-    res.innerHTML = '<p id = "result">Max Temp is: '+obj.list[0].main.temp_max+'<sup>&#9675;</sup>C<br>Min Temp is: '+obj.list[0].main.temp_min+'<sup>&#9675;</sup>C</p>';
+    res.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>'+'<p id = "result">Max Temp is: '+obj.list[0].main.temp_max+'<sup>&#9675;</sup>C<br>Min Temp is: '+obj.list[0].main.temp_min+'<sup>&#9675;</sup>C</p>';
     for(i=0;i<40;i+=8)
     {
         var date = obj.list[i].dt_txt.split(" ");
@@ -27,18 +27,15 @@ async function getWeather()
             labels: label,
             datasets: [{
                 label: 'Temperature',
-                data: data
+                data: data,
+                backgroundColor: [
+                    'red','blue','green','violet','teal'
+                ],
+                borderColor: [
+                    'black','black','black','black','black'
+                ]
             }]
         },
-        options:{
-            scales:{
-                yAxes:[{
-                        ticks:{
-                            beginAtZero: true 
-                        }
-                    }
-                ]
-            }
-        }
-    })
+    });
+    
 }
