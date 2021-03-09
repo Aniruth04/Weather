@@ -12,8 +12,10 @@ async function getWeather()
     ans.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>';
     label = [];
     data = [];
+    var time = obj.list[0].dt_txt.split(" ")[1]; 
     var res = document.getElementById("result");
-    res.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>'+'<p id = "result">Max Temp is: '+obj.list[0].main.temp_max+'<sup>&#9675;</sup>C<br>Min Temp is: '+obj.list[0].main.temp_min+'<sup>&#9675;</sup>C</p>';
+    res.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>'+'<p id = "result">Max Temp is: '+obj.list[0].main.temp_max+'<sup> o</sup>C<br>Min Temp is: '+obj.list[0].main.temp_min+'<sup> o</sup>C</p>';
+    document.getElementById("time").innerHTML = '<p id = "time">This information is according to the time: '+time+'</p>'
     for(i=0;i<40;i+=8)
     {
         var date = obj.list[i].dt_txt.split(" ");
