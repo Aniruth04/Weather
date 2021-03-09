@@ -7,37 +7,50 @@ async function getWeather()
     url = url.concat(city).concat("&appid=").concat(key).concat('&units=metric');
     let result = await fetch(url);
     let obj = await result.json();
-    var country = obj.city.country;
-    var ans = document.getElementById("result");
-    ans.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>';
-    label = [];
-    data = [];
-    var time = obj.list[0].dt_txt.split(" ")[1]; 
     var res = document.getElementById("result");
-    res.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>'+'<p id = "result">Max Temp is: '+obj.list[0].main.temp_max+'<sup> o</sup>C<br>Min Temp is: '+obj.list[0].main.temp_min+'<sup> o</sup>C</p>';
-    document.getElementById("time").innerHTML = '<p id = "time">This information is according to the time: '+time+'</p>'
-    for(i=0;i<40;i+=8)
-    {
-        var date = obj.list[i].dt_txt.split(" ");
-        label.push(date[0]);
-        data.push(obj.list[i].main.temp);
-    }
+    document.getElementById("table").innerHTML = '<table id = "table"><tr><td><canvas id = "myChart" width = "400" height = "400"></canvas></td></tr></table>';
     var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx,{
-        type: 'bar',
-        data: {
-            labels: label,
-            datasets: [{
-                label: 'Temperature',
-                data: data,
-                backgroundColor: [
-                    'red','blue','green','violet','teal'
-                ],
-                borderColor: [
-                    'black','black','black','black','black'
-                ]
-            }]
-        },
-    });
-    
+    if(obj.cod=="404")
+    {
+        res.innerHTML = "<br>City not found";
+        document.getElementById("table").innerHTML = "";
+        document.getElementById("time").innerHTML = "";
+    }
+    else if(obj.cod == "400")
+    {
+        res.innerHTML = "<br>Enter a city";
+        document.getElementById("table").innerHTML = "";
+        document.getElementById("time").innerHTML = "";
+    }
+    else
+    {
+        var country = obj.city.country;
+        label = [];
+        data = [];
+        var time = obj.list[0].dt_txt.split(" ")[1]; 
+        res.innerHTML = '<p id = "country">'+'Country name: '+country+'</p>'+'<p id = "result">Max Temp is: '+obj.list[0].main.temp_max+'<sup> o</sup>C<br>Min Temp is: '+obj.list[0].main.temp_min+'<sup> o</sup>C</p>';
+        document.getElementById("time").innerHTML = '<p id = "time">This information is according to the time: '+time+'</p>'
+        for(i=0;i<40;i+=8)
+        {
+            var date = obj.list[i].dt_txt.split(" ");
+            label.push(date[0]);
+            data.push(obj.list[i].main.temp);
+        }
+        var myChart = new Chart(ctx,{
+            type: 'bar',
+            data: {
+                labels: label,
+                datasets: [{
+                    label: 'Temperature',
+                    data: data,
+                    backgroundColor: [
+                        'red','blue','green','violet','teal'
+                    ],
+                    borderColor: [
+                        'black','black','black','black','black'
+                    ]
+                }]
+            },
+        });
+    }   
 }
